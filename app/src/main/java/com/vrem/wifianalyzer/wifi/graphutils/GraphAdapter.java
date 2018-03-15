@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -39,6 +39,7 @@ public class GraphAdapter implements UpdateNotifier {
         this.graphViewNotifiers = graphViewNotifiers;
     }
 
+    @NonNull
     public List<GraphView> getGraphViews() {
         return new ArrayList<>(CollectionUtils.collect(graphViewNotifiers, new ToGraphView()));
     }
@@ -48,6 +49,7 @@ public class GraphAdapter implements UpdateNotifier {
         IterableUtils.forEach(graphViewNotifiers, new UpdateClosure(wiFiData));
     }
 
+    @NonNull
     public List<GraphViewNotifier> getGraphViewNotifiers() {
         return graphViewNotifiers;
     }

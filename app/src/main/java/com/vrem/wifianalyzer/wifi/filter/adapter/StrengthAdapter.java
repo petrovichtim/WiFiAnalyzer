@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ import com.vrem.wifianalyzer.wifi.model.Strength;
 
 import java.util.Set;
 
-class StrengthAdapter extends EnumFilterAdapter<Strength> {
+public class StrengthAdapter extends EnumFilterAdapter<Strength> {
     StrengthAdapter(@NonNull Set<Strength> values) {
         super(Strength.class, values);
     }

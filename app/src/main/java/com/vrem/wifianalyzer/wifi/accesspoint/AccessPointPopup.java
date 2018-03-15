@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,18 +23,22 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.View.OnClickListener;
 
-import com.vrem.wifianalyzer.MainContext;
 import com.vrem.wifianalyzer.R;
 import com.vrem.wifianalyzer.wifi.model.WiFiDetail;
 
 public class AccessPointPopup {
 
     public Dialog show(@NonNull View view) {
-        Dialog dialog = new Dialog(MainContext.INSTANCE.getMainActivity());
-        dialog.setContentView(view);
-        dialog.findViewById(R.id.popupButtonClose).setOnClickListener(new PopupDialogCloseListener(dialog));
-        dialog.show();
-        return dialog;
+        try {
+            Dialog dialog = new Dialog(view.getContext());
+            dialog.setContentView(view);
+            dialog.findViewById(R.id.popupButtonClose).setOnClickListener(new PopupDialogCloseListener(dialog));
+            dialog.show();
+            return dialog;
+        } catch (Exception e) {
+            // ignore: unable to show details
+            return null;
+        }
     }
 
     void attach(@NonNull View view, @NonNull WiFiDetail wiFiDetail) {
@@ -63,7 +67,7 @@ public class AccessPointPopup {
 
         @Override
         public void onClick(View view) {
-            show(new AccessPointDetail().makeViewPopup(wiFiDetail));
+            show(new AccessPointDetail().makeViewDetailed(wiFiDetail));
         }
     }
 

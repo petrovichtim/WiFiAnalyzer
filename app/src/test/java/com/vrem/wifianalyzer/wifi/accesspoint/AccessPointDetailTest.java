@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -274,7 +274,7 @@ public class AccessPointDetailTest {
         // setup
         WiFiDetail wiFiDetail = withWiFiDetail(SSID, new WiFiAdditional(StringUtils.EMPTY, false));
         // execute
-        View actual = fixture.makeViewPopup(wiFiDetail);
+        View actual = fixture.makeViewDetailed(wiFiDetail);
         // validate
         validateTextViewValuesFullView(actual, wiFiDetail);
     }
@@ -284,7 +284,7 @@ public class AccessPointDetailTest {
         // setup
         WiFiDetail wiFiDetail = withWiFiDetail(SSID, new WiFiAdditional(StringUtils.EMPTY, false));
         // execute
-        View actual = fixture.makeViewPopup(wiFiDetail);
+        View actual = fixture.makeViewDetailed(wiFiDetail);
         // validate
         assertEquals(View.GONE, actual.findViewById(R.id.vendorShort).getVisibility());
         assertEquals(View.GONE, actual.findViewById(R.id.vendorLong).getVisibility());
@@ -295,7 +295,7 @@ public class AccessPointDetailTest {
         // setup
         WiFiDetail wiFiDetail = withWiFiDetail(SSID, new WiFiAdditional(VENDOR_NAME, false));
         // execute
-        View actual = fixture.makeViewPopup(wiFiDetail);
+        View actual = fixture.makeViewDetailed(wiFiDetail);
         // validate
         assertEquals(View.GONE, actual.findViewById(R.id.vendorShort).getVisibility());
         assertEquals(View.VISIBLE, actual.findViewById(R.id.vendorLong).getVisibility());

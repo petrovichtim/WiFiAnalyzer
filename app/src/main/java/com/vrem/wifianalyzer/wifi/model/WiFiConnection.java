@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 public class WiFiConnection {
     public static final int LINK_SPEED_INVALID = -1;
-    public static final WiFiConnection EMPTY = new WiFiConnection(StringUtils.EMPTY, StringUtils.EMPTY);
+    public static final WiFiConnection EMPTY = new WiFiConnection(StringUtils.EMPTY, StringUtils.EMPTY, StringUtils.EMPTY, LINK_SPEED_INVALID);
 
     private final String SSID;
     private final String BSSID;
@@ -41,18 +41,17 @@ public class WiFiConnection {
         this.linkSpeed = linkSpeed;
     }
 
-    public WiFiConnection(@NonNull String SSID, @NonNull String BSSID) {
-        this(SSID, BSSID, StringUtils.EMPTY, LINK_SPEED_INVALID);
-    }
-
+    @NonNull
     public String getSSID() {
         return SSID;
     }
 
+    @NonNull
     public String getBSSID() {
         return BSSID;
     }
 
+    @NonNull
     public String getIpAddress() {
         return ipAddress;
     }
@@ -62,7 +61,7 @@ public class WiFiConnection {
     }
 
     public boolean isConnected() {
-        return StringUtils.isNotBlank(getIpAddress());
+        return !EMPTY.equals(this);
     }
 
     @Override

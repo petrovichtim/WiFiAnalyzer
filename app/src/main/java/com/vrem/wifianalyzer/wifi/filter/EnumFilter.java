@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *  
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,12 +41,6 @@ abstract class EnumFilter<T extends Enum, U extends EnumFilterAdapter<T>> {
         dialog.findViewById(id).setVisibility(View.VISIBLE);
     }
 
-    private void setInformation(@NonNull Dialog dialog, int id, @NonNull T object) {
-        View view = dialog.findViewById(id);
-        view.setOnClickListener(new OnClickListener(object));
-        setColor(view, object);
-    }
-
     private void setColor(@NonNull View view, @NonNull T object) {
         int colorId = filter.getColor(object);
         int color = ContextCompat.getColor(view.getContext(), colorId);
@@ -69,6 +63,12 @@ abstract class EnumFilter<T extends Enum, U extends EnumFilterAdapter<T>> {
         @Override
         public void execute(T input) {
             setInformation(dialog, ids.get(input), input);
+        }
+
+        private void setInformation(@NonNull Dialog dialog, int id, @NonNull T object) {
+            View view = dialog.findViewById(id);
+            view.setOnClickListener(new OnClickListener(object));
+            setColor(view, object);
         }
     }
 

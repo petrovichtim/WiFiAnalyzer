@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -56,7 +56,7 @@ public class NavigationSwipeTest {
     }
 
     private void validateSwipeRight(@NonNull NavigationMenu expected) {
-        assertEquals(expected, mainActivity.getNavigationMenuView().getCurrentNavigationMenu());
-        assertEquals(expected.ordinal(), mainActivity.getNavigationMenuView().getCurrentMenuItem().getItemId());
+        assertEquals(expected, mainActivity.getCurrentNavigationMenu());
+        assertEquals(expected.ordinal(), mainActivity.getCurrentMenuItem().getItemId());
     }
 }

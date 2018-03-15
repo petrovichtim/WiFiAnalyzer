@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,8 +23,41 @@ import android.support.annotation.NonNull;
 import android.text.Html;
 import android.text.Spanned;
 
-public class TextUtils {
+import org.apache.commons.lang3.StringUtils;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+public class TextUtils {
+    private static final String SEPARATOR = " ";
+
+    private TextUtils() {
+        throw new IllegalStateException("Utility class");
+    }
+
+    @NonNull
+    public static Set<String> split(String source) {
+        return StringUtils.isBlank(source)
+            ? new HashSet<String>()
+            : new HashSet<>(Arrays.asList(trim(source).split(SEPARATOR)));
+    }
+
+    @NonNull
+    public static String join(Set<String> source) {
+        return source == null
+            ? StringUtils.EMPTY
+            : trim(android.text.TextUtils.join(SEPARATOR, source.toArray()));
+    }
+
+    @NonNull
+    public static String trim(String source) {
+        return StringUtils.isBlank(source)
+            ? StringUtils.EMPTY
+            : source.trim().replaceAll(" +", " ");
+    }
+
+    @NonNull
     public static String textToHtml(@NonNull String text, int color, boolean small) {
         return "<font color='" + color + "'><" + (small ? "small" : "strong") +
             ">" + text + "</" + (small ? "small" : "strong") + "></font>";
@@ -38,6 +71,5 @@ public class TextUtils {
         }
         return Html.fromHtml(text);
     }
-
 
 }

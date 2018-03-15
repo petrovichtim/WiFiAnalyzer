@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,38 +18,38 @@
 
 package com.vrem.wifianalyzer.settings;
 
-import android.app.ActionBar;
+import android.content.Context;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-import com.vrem.wifianalyzer.MainContext;
+import com.vrem.wifianalyzer.ActivityUtils;
 import com.vrem.wifianalyzer.R;
 
-public class SettingActivity extends PreferenceActivity {
+public class SettingActivity extends AppCompatActivity {
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        setCustomTheme();
-
-        super.onCreate(savedInstanceState);
-
-        getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingPreferenceFragment()).commit();
-
-        ActionBar actionBar = getActionBar();
-        if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(ActivityUtils.createContext(newBase));
     }
 
-    private void setCustomTheme() {
-        Settings settings = MainContext.INSTANCE.getSettings();
-        if (settings != null) {
-            ThemeStyle themeStyle = settings.getThemeStyle();
-            setTheme(themeStyle.themeDeviceDefaultStyle());
-        }
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        setTheme(ThemeStyle.getDefaultTheme());
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.setting_content);
+        setFragment();
+        ActivityUtils.setActionBarOptions(getSupportActionBar());
+    }
+
+    void setFragment() {
+        getFragmentManager()
+            .beginTransaction()
+            .replace(R.id.setting_fragment, new SettingPreferenceFragment())
+            .commit();
     }
 
     @Override
@@ -58,7 +58,7 @@ public class SettingActivity extends PreferenceActivity {
             NavUtils.navigateUpFromSameTask(this);
             return true;
         }
-        return super.onOptionsItemSelected(item);
+        return false;
     }
 
     public static class SettingPreferenceFragment extends PreferenceFragment {

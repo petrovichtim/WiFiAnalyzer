@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,7 +18,6 @@
 
 package com.vrem.wifianalyzer.wifi.graphutils;
 
-import android.content.res.Resources;
 import android.view.View;
 
 import com.jjoe64.graphview.GraphView;
@@ -34,7 +33,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Collections;
 import java.util.List;
@@ -59,15 +58,11 @@ public class GraphViewWrapperTest {
     @Mock
     private LegendRenderer legendRenderer;
     @Mock
-    private Resources resources;
-    @Mock
     private SeriesCache seriesCache;
     @Mock
     private SeriesOptions seriesOptions;
     @Mock
     private BaseSeries<DataPoint> baseSeries;
-    @Mock
-    private BaseSeries<DataPoint> currentSeries;
 
     private DataPoint dataPoint;
     private DataPoint[] dataPoints;
@@ -100,10 +95,8 @@ public class GraphViewWrapperTest {
         Set<WiFiDetail> newSeries = Collections.emptySet();
         List<WiFiDetail> difference = Collections.emptyList();
         List<BaseSeries<DataPoint>> removed = Collections.singletonList(baseSeries);
-        int color = 10;
         when(seriesCache.difference(newSeries)).thenReturn(difference);
         when(seriesCache.remove(difference)).thenReturn(removed);
-        when(baseSeries.getColor()).thenReturn(color);
         // execute
         fixture.removeSeries(newSeries);
         // validate
@@ -274,10 +267,10 @@ public class GraphViewWrapperTest {
     @Test
     public void testGetSize() throws Exception {
         // execute & validate
-        assertEquals(Configuration.SIZE_MAX, fixture.getSize(GraphViewWrapper.TYPE1));
-        assertEquals(Configuration.SIZE_MAX, fixture.getSize(GraphViewWrapper.TYPE2));
-        assertEquals(Configuration.SIZE_MAX, fixture.getSize(GraphViewWrapper.TYPE3));
-        assertEquals(Configuration.SIZE_MIN, fixture.getSize(GraphViewWrapper.TYPE4));
+        assertEquals(Configuration.SIZE_MAX, fixture.getSize(GraphConstants.TYPE1));
+        assertEquals(Configuration.SIZE_MAX, fixture.getSize(GraphConstants.TYPE2));
+        assertEquals(Configuration.SIZE_MAX, fixture.getSize(GraphConstants.TYPE3));
+        assertEquals(Configuration.SIZE_MIN, fixture.getSize(GraphConstants.TYPE4));
     }
 
     @Test

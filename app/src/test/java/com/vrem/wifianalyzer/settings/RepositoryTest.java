@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -73,12 +73,12 @@ public class RepositoryTest {
         when(PreferenceManager.getDefaultSharedPreferences(mainActivity)).thenReturn(sharedPreferences);
         when(mainActivity.getResources()).thenReturn(resources);
 
-        fixture = new Repository();
+        fixture = new Repository(mainActivity);
     }
 
     @After
     public void tearDown() {
-        verifyStatic();
+        verifyStatic(PreferenceManager.class);
         MainContextHelper.INSTANCE.restore();
     }
 

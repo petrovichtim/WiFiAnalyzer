@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,12 +30,12 @@ import com.vrem.wifianalyzer.R;
 import org.apache.commons.collections4.Closure;
 import org.apache.commons.collections4.IterableUtils;
 
-public class NavigationMenuView {
+public class NavigationMenuView implements NavigationMenuControl {
     private final NavigationView navigationView;
     private NavigationMenu currentNavigationMenu;
 
     public NavigationMenuView(@NonNull MainActivity mainActivity, @NonNull NavigationMenu currentNavigationMenu) {
-        navigationView = (NavigationView) mainActivity.findViewById(R.id.nav_view);
+        navigationView = mainActivity.findViewById(R.id.nav_view);
         populateNavigationMenu();
         setCurrentNavigationMenu(currentNavigationMenu);
         navigationView.setNavigationItemSelectedListener(mainActivity);
@@ -45,25 +45,34 @@ public class NavigationMenuView {
         IterableUtils.forEach(EnumUtils.values(NavigationGroup.class), new NavigationGroupClosure(navigationView.getMenu()));
     }
 
+    @Override
+    @NonNull
     public MenuItem getCurrentMenuItem() {
         return navigationView.getMenu().getItem(getCurrentNavigationMenu().ordinal());
     }
 
+    @Override
+    @NonNull
     public NavigationMenu getCurrentNavigationMenu() {
         return currentNavigationMenu;
     }
 
+    @Override
     public void setCurrentNavigationMenu(@NonNull NavigationMenu navigationMenu) {
         this.currentNavigationMenu = navigationMenu;
         Menu menu = navigationView.getMenu();
-        for (int i = 0; i < menu.size(); i++) {
-            MenuItem item = menu.getItem(i);
-            item.setCheckable(navigationMenu.ordinal() == i);
-            item.setChecked(navigationMenu.ordinal() == i);
+        if (menu != null) {
+            for (int i = 0; i < menu.size(); i++) {
+                MenuItem item = menu.getItem(i);
+                item.setCheckable(navigationMenu.ordinal() == i);
+                item.setChecked(navigationMenu.ordinal() == i);
+            }
         }
     }
 
-    NavigationView getNavigationView() {
+    @Override
+    @NonNull
+    public NavigationView getNavigationView() {
         return navigationView;
     }
 

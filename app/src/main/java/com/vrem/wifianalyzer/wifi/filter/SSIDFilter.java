@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *  
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,45 +25,43 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
+import com.vrem.util.TextUtils;
 import com.vrem.wifianalyzer.R;
-import com.vrem.wifianalyzer.wifi.filter.adapter.BasicFilterAdapter;
+import com.vrem.wifianalyzer.wifi.filter.adapter.SSIDAdapter;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
 class SSIDFilter {
-    private static final char SEPARATOR_CHAR = ' ';
+    SSIDFilter(@NonNull SSIDAdapter ssidAdapter, @NonNull Dialog dialog) {
+        String value = TextUtils.join(ssidAdapter.getValues());
 
-    private final BasicFilterAdapter<String> filterAdapter;
-
-    SSIDFilter(@NonNull BasicFilterAdapter<String> filterAdapter, @NonNull Dialog dialog) {
-        this.filterAdapter = filterAdapter;
-
-        String value = StringUtils.join(filterAdapter.getValues(), SEPARATOR_CHAR);
-
-        EditText editText = (EditText) dialog.findViewById(R.id.filterSSIDtext);
+        EditText editText = dialog.findViewById(R.id.filterSSIDtext);
         editText.setText(value);
-        editText.addTextChangedListener(new onChange());
+        editText.addTextChangedListener(new OnChange(ssidAdapter));
 
         dialog.findViewById(R.id.filterSSID).setVisibility(View.VISIBLE);
     }
 
-    private class onChange implements TextWatcher {
+    static class OnChange implements TextWatcher {
+        private final SSIDAdapter ssidAdapter;
+
+        OnChange(@NonNull SSIDAdapter ssidAdapter) {
+            this.ssidAdapter = ssidAdapter;
+        }
+
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            // Do nothing
         }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
+            // Do nothing
         }
 
         @Override
         public void afterTextChanged(Editable s) {
-            Set<String> values = new HashSet<>(Arrays.asList(StringUtils.split(s.toString(), SEPARATOR_CHAR)));
-            filterAdapter.setValues(values);
+            ssidAdapter.setValues(TextUtils.split(s == null ? StringUtils.EMPTY : s.toString()));
         }
     }
 }

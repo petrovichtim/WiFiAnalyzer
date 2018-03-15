@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,12 +19,11 @@
 package com.vrem.wifianalyzer.settings;
 
 import android.content.Context;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 
+import com.vrem.util.LocaleUtils;
+import com.vrem.wifianalyzer.MainContext;
 import com.vrem.wifianalyzer.wifi.band.WiFiChannelCountry;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -37,7 +36,7 @@ import java.util.Locale;
 
 public class CountryPreference extends CustomPreference {
     public CountryPreference(@NonNull Context context, AttributeSet attrs) {
-        super(context, attrs, getData(), getDefault(context));
+        super(context, attrs, getData(), LocaleUtils.getDefaultCountryCode());
     }
 
     @NonNull
@@ -47,26 +46,21 @@ public class CountryPreference extends CustomPreference {
         return results;
     }
 
-    @NonNull
-    public static String getDefault(@NonNull Context context) {
-        Resources resources = context.getResources();
-        Configuration configuration = resources.getConfiguration();
-        return getLocale(configuration).getCountry();
-    }
-
-    @SuppressWarnings("deprecation")
-    @NonNull
-    private static Locale getLocale(@NonNull Configuration config) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return config.getLocales().get(0);
-        }
-        return config.locale;
-    }
-
     private static class ToData implements Transformer<WiFiChannelCountry, Data> {
+        private final Locale currentLocale;
+
+        private ToData() {
+            this.currentLocale = getLocale();
+        }
+
+        private Locale getLocale() {
+            Settings settings = MainContext.INSTANCE.getSettings();
+            return settings == null ? Locale.US : settings.getLanguageLocale();
+        }
+
         @Override
         public Data transform(WiFiChannelCountry input) {
-            return new Data(input.getCountryCode(), input.getCountryName());
+            return new Data(input.getCountryCode(), input.getCountryName(currentLocale));
         }
     }
 

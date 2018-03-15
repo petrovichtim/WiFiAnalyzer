@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,8 @@
 
 package com.vrem.wifianalyzer.wifi.timegraph;
 
+import android.support.annotation.NonNull;
+
 import com.vrem.util.EnumUtils;
 import com.vrem.wifianalyzer.wifi.band.WiFiBand;
 import com.vrem.wifianalyzer.wifi.graphutils.GraphAdapter;
@@ -34,6 +36,7 @@ class TimeGraphAdapter extends GraphAdapter {
         super(makeGraphViewNotifiers());
     }
 
+    @NonNull
     private static List<GraphViewNotifier> makeGraphViewNotifiers() {
         return new ArrayList<>(CollectionUtils.collect(EnumUtils.values(WiFiBand.class), new ToGraphViewNotifier()));
     }

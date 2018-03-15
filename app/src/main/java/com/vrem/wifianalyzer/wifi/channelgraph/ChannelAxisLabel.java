@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ import com.vrem.wifianalyzer.wifi.graphutils.GraphConstants;
 
 import org.apache.commons.lang3.StringUtils;
 
-class ChannelAxisLabel implements LabelFormatter, GraphConstants {
+class ChannelAxisLabel implements LabelFormatter {
     private final WiFiBand wiFiBand;
     private final Pair<WiFiChannel, WiFiChannel> wiFiChannelPair;
 
@@ -49,8 +49,8 @@ class ChannelAxisLabel implements LabelFormatter, GraphConstants {
         if (isValueX) {
             result += findChannel(valueAsInt);
         } else {
-            if (valueAsInt <= MAX_Y && valueAsInt > MIN_Y) {
-                result += valueAsInt;
+            if (valueAsInt <= GraphConstants.MAX_Y && valueAsInt > GraphConstants.MIN_Y) {
+                result += Integer.toString(valueAsInt);
             }
         }
         return result;
@@ -61,6 +61,7 @@ class ChannelAxisLabel implements LabelFormatter, GraphConstants {
         // ignore
     }
 
+    @NonNull
     private String findChannel(int value) {
         WiFiChannels wiFiChannels = wiFiBand.getWiFiChannels();
         WiFiChannel wiFiChannel = wiFiChannels.getWiFiChannelByFrequency(value, wiFiChannelPair);
@@ -74,7 +75,7 @@ class ChannelAxisLabel implements LabelFormatter, GraphConstants {
         if (!wiFiChannels.isChannelAvailable(countryCode, channel)) {
             return StringUtils.EMPTY;
         }
-        return "" + channel;
+        return Integer.toString(channel);
     }
 
 }

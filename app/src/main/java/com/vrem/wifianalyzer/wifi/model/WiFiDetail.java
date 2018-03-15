@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,10 +58,12 @@ public class WiFiDetail implements Comparable<WiFiDetail> {
         this(wiFiDetail.SSID, wiFiDetail.BSSID, wiFiDetail.getCapabilities(), wiFiDetail.getWiFiSignal(), wiFiAdditional);
     }
 
+    @NonNull
     public Security getSecurity() {
         return Security.findOne(capabilities);
     }
 
+    @NonNull
     public String getSSID() {
         return isHidden() ? SSID_EMPTY : SSID;
     }
@@ -70,22 +72,27 @@ public class WiFiDetail implements Comparable<WiFiDetail> {
         return StringUtils.isBlank(SSID);
     }
 
+    @NonNull
     public String getBSSID() {
         return BSSID;
     }
 
+    @NonNull
     public String getCapabilities() {
         return capabilities;
     }
 
+    @NonNull
     public WiFiSignal getWiFiSignal() {
         return wiFiSignal;
     }
 
+    @NonNull
     public WiFiAdditional getWiFiAdditional() {
         return wiFiAdditional;
     }
 
+    @NonNull
     public List<WiFiDetail> getChildren() {
         return children;
     }
@@ -94,6 +101,7 @@ public class WiFiDetail implements Comparable<WiFiDetail> {
         return !getChildren().isEmpty();
     }
 
+    @NonNull
     public String getTitle() {
         return String.format("%s (%s)", getSSID(), BSSID);
     }

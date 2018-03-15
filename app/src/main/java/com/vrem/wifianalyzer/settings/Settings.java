@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,10 +18,10 @@
 
 package com.vrem.wifianalyzer.settings;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.vrem.util.EnumUtils;
+import com.vrem.util.LocaleUtils;
 import com.vrem.wifianalyzer.R;
 import com.vrem.wifianalyzer.navigation.NavigationMenu;
 import com.vrem.wifianalyzer.wifi.accesspoint.AccessPointViewType;
@@ -34,6 +34,7 @@ import com.vrem.wifianalyzer.wifi.model.SortBy;
 import com.vrem.wifianalyzer.wifi.model.Strength;
 
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import static android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -42,15 +43,9 @@ public class Settings {
     static final int GRAPH_Y_MULTIPLIER = -10;
     static final int GRAPH_Y_DEFAULT = 2;
 
-    private final Context context;
-    private Repository repository;
+    private final Repository repository;
 
-    public Settings(@NonNull Context context) {
-        this.context = context;
-        setRepository(new Repository());
-    }
-
-    void setRepository(@NonNull Repository repository) {
+    public Settings(@NonNull Repository repository) {
         this.repository = repository;
     }
 
@@ -76,35 +71,50 @@ public class Settings {
         repository.save(R.string.wifi_band_key, getWiFiBand().toggle().ordinal());
     }
 
+    @NonNull
     public String getCountryCode() {
-        String countryCode = CountryPreference.getDefault(context);
+        String countryCode = LocaleUtils.getDefaultCountryCode();
         return repository.getString(R.string.country_code_key, countryCode);
     }
 
+    @NonNull
+    public Locale getLanguageLocale() {
+        String defaultLanguageTag = LocaleUtils.getDefaultLanguageTag();
+        String languageTag = repository.getString(R.string.language_key, defaultLanguageTag);
+        return LocaleUtils.findByLanguageTag(languageTag);
+    }
+
+    @NonNull
     public SortBy getSortBy() {
         return find(SortBy.class, R.string.sort_by_key, SortBy.STRENGTH);
     }
 
+    @NonNull
     public GroupBy getGroupBy() {
         return find(GroupBy.class, R.string.group_by_key, GroupBy.NONE);
     }
 
+    @NonNull
     public AccessPointViewType getAccessPointView() {
         return find(AccessPointViewType.class, R.string.ap_view_key, AccessPointViewType.COMPLETE);
     }
 
+    @NonNull
     public ConnectionViewType getConnectionViewType() {
         return find(ConnectionViewType.class, R.string.connection_view_key, ConnectionViewType.COMPLETE);
     }
 
+    @NonNull
     public GraphLegend getChannelGraphLegend() {
         return find(GraphLegend.class, R.string.channel_graph_legend_key, GraphLegend.HIDE);
     }
 
+    @NonNull
     public GraphLegend getTimeGraphLegend() {
         return find(GraphLegend.class, R.string.time_graph_legend_key, GraphLegend.LEFT);
     }
 
+    @NonNull
     public WiFiBand getWiFiBand() {
         return find(WiFiBand.class, R.string.wifi_band_key, WiFiBand.GHZ2);
     }
@@ -113,14 +123,17 @@ public class Settings {
         return repository.getBoolean(R.string.wifi_off_on_exit_key, repository.getResourceBoolean(R.bool.wifi_off_on_exit_default));
     }
 
+    @NonNull
     public ThemeStyle getThemeStyle() {
         return find(ThemeStyle.class, R.string.theme_key, ThemeStyle.DARK);
     }
 
+    @NonNull
     public NavigationMenu getStartMenu() {
         return find(NavigationMenu.class, R.string.start_menu_key, NavigationMenu.ACCESS_POINTS);
     }
 
+    @NonNull
     public Set<String> getSSIDs() {
         return repository.getStringSet(R.string.filter_ssid_key, new HashSet<String>());
     }
@@ -129,6 +142,7 @@ public class Settings {
         repository.saveStringSet(R.string.filter_ssid_key, values);
     }
 
+    @NonNull
     public Set<WiFiBand> getWiFiBands() {
         return findSet(WiFiBand.class, R.string.filter_wifi_band_key, WiFiBand.GHZ2);
     }
@@ -137,6 +151,7 @@ public class Settings {
         saveSet(R.string.filter_wifi_band_key, values);
     }
 
+    @NonNull
     public Set<Strength> getStrengths() {
         return findSet(Strength.class, R.string.filter_strength_key, Strength.FOUR);
     }
@@ -145,6 +160,7 @@ public class Settings {
         saveSet(R.string.filter_strength_key, values);
     }
 
+    @NonNull
     public Set<Security> getSecurities() {
         return findSet(Security.class, R.string.filter_security_key, Security.NONE);
     }
@@ -153,11 +169,13 @@ public class Settings {
         saveSet(R.string.filter_security_key, values);
     }
 
+    @NonNull
     private <T extends Enum> T find(@NonNull Class<T> enumType, int key, @NonNull T defaultValue) {
         int value = repository.getStringAsInteger(key, defaultValue.ordinal());
         return EnumUtils.find(enumType, value, defaultValue);
     }
 
+    @NonNull
     private <T extends Enum> Set<T> findSet(@NonNull Class<T> enumType, int key, @NonNull T defaultValue) {
         Set<String> defaultValues = EnumUtils.ordinals(enumType);
         Set<String> values = repository.getStringSet(key, defaultValues);

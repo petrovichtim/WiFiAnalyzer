@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,8 +43,8 @@ public class ScanIntervalPreference extends DialogPreference {
 
         Resources resources = context.getResources();
 
-        setPositiveButtonText(resources.getText(R.string.button_ok));
-        setNegativeButtonText(resources.getText(R.string.button_cancel));
+        setPositiveButtonText(android.R.string.ok);
+        setNegativeButtonText(android.R.string.cancel);
 
         valueDefault = resources.getInteger(R.integer.scan_interval_default);
         valueMin = resources.getInteger(R.integer.scan_interval_min);
@@ -57,7 +57,7 @@ public class ScanIntervalPreference extends DialogPreference {
     protected void onBindDialogView(View view) {
         super.onBindDialogView(view);
 
-        numberPicker = (NumberPicker) view.findViewById(R.id.scan_interval_picker);
+        numberPicker = view.findViewById(R.id.scan_interval_picker);
         numberPicker.setMinValue(valueMin);
         numberPicker.setMaxValue(valueMax);
         if (value != null) {

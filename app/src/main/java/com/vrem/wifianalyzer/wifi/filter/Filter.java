@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,6 @@ import android.content.DialogInterface.OnClickListener;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import com.vrem.wifianalyzer.MainActivity;
 import com.vrem.wifianalyzer.MainContext;
 import com.vrem.wifianalyzer.R;
 import com.vrem.wifianalyzer.navigation.NavigationMenu;
@@ -42,13 +41,12 @@ public class Filter {
     }
 
     private static AlertDialog buildAlertDialog() {
-        MainActivity mainActivity = MainContext.INSTANCE.getMainActivity();
-        View view = mainActivity.getLayoutInflater().inflate(R.layout.filter_popup, null);
+        View view = MainContext.INSTANCE.getLayoutInflater().inflate(R.layout.filter_popup, null);
         return new AlertDialog
-            .Builder(mainActivity)
+            .Builder(view.getContext())
             .setView(view)
             .setTitle(R.string.filter_title)
-            .setIcon(R.drawable.ic_filter_list_grey_500_48dp)
+            .setIcon(R.drawable.ic_filter_list_grey_500_24dp)
             .setNegativeButton(R.string.filter_reset, new Reset())
             .setNeutralButton(R.string.filter_close, new Close())
             .setPositiveButton(R.string.filter_apply, new Apply())
@@ -74,7 +72,7 @@ public class Filter {
     }
 
     private void addWiFiBandFilter() {
-        if (NavigationMenu.ACCESS_POINTS.equals(MainContext.INSTANCE.getMainActivity().getNavigationMenuView().getCurrentNavigationMenu())) {
+        if (NavigationMenu.ACCESS_POINTS.equals(MainContext.INSTANCE.getMainActivity().getCurrentNavigationMenu())) {
             new WiFiBandFilter(MainContext.INSTANCE.getFilterAdapter().getWiFiBandAdapter(), alertDialog);
         }
     }

@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -87,7 +87,7 @@ public class ConnectionViewTest {
     @After
     public void tearDown() {
         MainContextHelper.INSTANCE.restore();
-        mainActivity.getNavigationMenuView().setCurrentNavigationMenu(NavigationMenu.ACCESS_POINTS);
+        mainActivity.setCurrentNavigationMenu(NavigationMenu.ACCESS_POINTS);
     }
 
     @Test
@@ -143,8 +143,9 @@ public class ConnectionViewTest {
         // validate
         WiFiConnection wiFiConnection = wiFiAdditional.getWiFiConnection();
         View view = mainActivity.findViewById(R.id.connection);
-        assertEquals(wiFiConnection.getIpAddress(), ((TextView) view.findViewById(R.id.ipAddress)).getText().toString());
-        TextView linkSpeedView = (TextView) view.findViewById(R.id.linkSpeed);
+        TextView ipAddressView = view.findViewById(R.id.ipAddress);
+        assertEquals(wiFiConnection.getIpAddress(), ipAddressView.getText().toString());
+        TextView linkSpeedView = view.findViewById(R.id.linkSpeed);
         assertEquals(View.VISIBLE, linkSpeedView.getVisibility());
         assertEquals(wiFiConnection.getLinkSpeed() + WifiInfo.LINK_SPEED_UNITS, linkSpeedView.getText().toString());
     }
@@ -161,7 +162,7 @@ public class ConnectionViewTest {
         fixture.update(wiFiData);
         // validate
         View view = mainActivity.findViewById(R.id.connection);
-        TextView linkSpeedView = (TextView) view.findViewById(R.id.linkSpeed);
+        TextView linkSpeedView = view.findViewById(R.id.linkSpeed);
         assertEquals(View.GONE, linkSpeedView.getVisibility());
     }
 
@@ -194,7 +195,7 @@ public class ConnectionViewTest {
     @Test
     public void testNoDataIsGoneWithNavigationMenuThatDoesNotHaveOptionMenu() throws Exception {
         // setup
-        mainActivity.getNavigationMenuView().setCurrentNavigationMenu(NavigationMenu.VENDOR_LIST);
+        mainActivity.setCurrentNavigationMenu(NavigationMenu.VENDORS);
         when(settings.getConnectionViewType()).thenReturn(ConnectionViewType.COMPLETE);
         when(wiFiData.getConnection()).thenReturn(withConnection(WiFiAdditional.EMPTY));
         // execute
@@ -229,7 +230,7 @@ public class ConnectionViewTest {
     }
 
     private View withAccessPointDetailView(@NonNull WiFiDetail connection, @NonNull AccessPointViewType accessPointViewType) {
-        ViewGroup parent = (ViewGroup) mainActivity.findViewById(R.id.connection).findViewById(R.id.connectionDetail);
+        ViewGroup parent = mainActivity.findViewById(R.id.connection).findViewById(R.id.connectionDetail);
         View view = mainActivity.getLayoutInflater().inflate(accessPointViewType.getLayout(), parent, false);
         when(accessPointDetail.makeView(null, parent, connection, false, accessPointViewType)).thenReturn(view);
         when(accessPointDetail.makeView(parent.getChildAt(0), parent, connection, false, accessPointViewType)).thenReturn(view);

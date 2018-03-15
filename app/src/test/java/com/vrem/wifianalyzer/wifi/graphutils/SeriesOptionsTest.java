@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -66,7 +66,7 @@ public class SeriesOptionsTest {
         // execute
         fixture.highlightConnected(lineGraphSeries, true);
         // validate
-        verify(lineGraphSeries).setThickness(SeriesOptions.THICKNESS_CONNECTED);
+        verify(lineGraphSeries).setThickness(GraphConstants.THICKNESS_CONNECTED);
     }
 
     @Test
@@ -74,7 +74,7 @@ public class SeriesOptionsTest {
         // execute
         fixture.highlightConnected(lineGraphSeries, false);
         // validate
-        verify(lineGraphSeries).setThickness(SeriesOptions.THICKNESS_REGULAR);
+        verify(lineGraphSeries).setThickness(GraphConstants.THICKNESS_REGULAR);
     }
 
     @Test
@@ -82,7 +82,7 @@ public class SeriesOptionsTest {
         // execute
         fixture.highlightConnected(titleLineGraphSeries, true);
         // validate
-        verify(titleLineGraphSeries).setThickness(SeriesOptions.THICKNESS_CONNECTED);
+        verify(titleLineGraphSeries).setThickness(GraphConstants.THICKNESS_CONNECTED);
         verify(titleLineGraphSeries).setTextBold(true);
     }
 
@@ -91,7 +91,7 @@ public class SeriesOptionsTest {
         // execute
         fixture.highlightConnected(titleLineGraphSeries, false);
         // validate
-        verify(titleLineGraphSeries).setThickness(SeriesOptions.THICKNESS_REGULAR);
+        verify(titleLineGraphSeries).setThickness(GraphConstants.THICKNESS_REGULAR);
         verify(titleLineGraphSeries).setTextBold(false);
     }
 

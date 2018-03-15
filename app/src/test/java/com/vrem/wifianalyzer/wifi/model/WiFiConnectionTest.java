@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -63,7 +63,7 @@ public class WiFiConnectionTest {
     @Test
     public void testEquals() throws Exception {
         // setup
-        WiFiConnection other = new WiFiConnection(SSID, BSSID);
+        WiFiConnection other = new WiFiConnection(SSID, BSSID, StringUtils.EMPTY, WiFiConnection.LINK_SPEED_INVALID);
         // execute & validate
         assertEquals(fixture, other);
         assertNotSame(fixture, other);
@@ -72,7 +72,7 @@ public class WiFiConnectionTest {
     @Test
     public void testHashCode() throws Exception {
         // setup
-        WiFiConnection other = new WiFiConnection(SSID, BSSID);
+        WiFiConnection other = new WiFiConnection(SSID, BSSID, StringUtils.EMPTY, WiFiConnection.LINK_SPEED_INVALID);
         // execute & validate
         assertEquals(fixture.hashCode(), other.hashCode());
     }

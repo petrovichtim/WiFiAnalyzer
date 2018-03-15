@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,18 +20,20 @@
 
 buildscript {
     repositories {
+        google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.1'
+        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.2'
     }
 }
 
 allprojects {
     repositories {
-        mavenCentral()
+        google()
         jcenter()
+        mavenCentral()
     }
 }
 

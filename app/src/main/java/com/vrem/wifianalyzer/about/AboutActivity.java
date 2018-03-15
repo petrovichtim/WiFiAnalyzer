@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,56 +18,47 @@
 
 package com.vrem.wifianalyzer.about;
 
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RawRes;
+import android.support.annotation.StringRes;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.vrem.util.FileUtils;
+import com.vrem.wifianalyzer.ActivityUtils;
 import com.vrem.wifianalyzer.BuildConfig;
 import com.vrem.wifianalyzer.Configuration;
 import com.vrem.wifianalyzer.MainContext;
 import com.vrem.wifianalyzer.R;
-import com.vrem.wifianalyzer.settings.Settings;
 import com.vrem.wifianalyzer.settings.ThemeStyle;
 
 public class AboutActivity extends AppCompatActivity {
+    private AlertDialog alertDialog;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(ActivityUtils.createContext(newBase));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setCustomTheme();
-
+        setTheme(ThemeStyle.getDefaultTheme());
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.about_content);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         setExtraInformation();
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setHomeButtonEnabled(true);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-    }
-
-    private void setCustomTheme() {
-        Settings settings = MainContext.INSTANCE.getSettings();
-        if (settings != null) {
-            ThemeStyle themeStyle = settings.getThemeStyle();
-            setTheme(themeStyle.themeAppCompatStyle());
-        }
+        ActivityUtils.setActionBarOptions(getSupportActionBar());
     }
 
     private void setExtraInformation() {
@@ -87,7 +78,7 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     private void setText(int id, String text) {
-        TextView version = (TextView) findViewById(id);
+        TextView version = findViewById(id);
         if (version != null) {
             version.setText(text);
         }
@@ -99,7 +90,7 @@ public class AboutActivity extends AppCompatActivity {
             NavUtils.navigateUpFromSameTask(this);
             return true;
         }
-        return super.onOptionsItemSelected(item);
+        return false;
     }
 
     public void writeReview(@NonNull View view) {
@@ -108,7 +99,49 @@ public class AboutActivity extends AppCompatActivity {
         try {
             startActivity(intent);
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(this, e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(view.getContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void showALv2(@NonNull View view) {
+        alertDialog = show(view, R.string.al, R.raw.al);
+        changeFont(alertDialog);
+    }
+
+    public void showGPLv3(@NonNull View view) {
+        alertDialog = show(view, R.string.gpl, R.raw.gpl);
+        changeFont(alertDialog);
+    }
+
+    public void showContributors(@NonNull View view) {
+        alertDialog = show(view, R.string.about_contributor_title, R.raw.contributors);
+    }
+
+    private AlertDialog show(@NonNull View view, @StringRes int titleId, @RawRes int id) {
+        String text = FileUtils.readFile(getResources(), id);
+        AlertDialog dialog = new AlertDialog
+            .Builder(view.getContext())
+            .setTitle(titleId)
+            .setMessage(text)
+            .setNeutralButton(android.R.string.ok, new Close())
+            .create();
+        dialog.show();
+        return dialog;
+    }
+
+    private void changeFont(AlertDialog alertDialog) {
+        TextView textView = alertDialog.findViewById(android.R.id.message);
+        textView.setTextSize(8);
+    }
+
+    AlertDialog getAlertDialog() {
+        return alertDialog;
+    }
+
+    private static class Close implements DialogInterface.OnClickListener {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            dialog.dismiss();
         }
     }
 

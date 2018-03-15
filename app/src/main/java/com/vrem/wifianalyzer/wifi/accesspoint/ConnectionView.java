@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -65,7 +65,7 @@ public class ConnectionView implements UpdateNotifier {
     }
 
     private boolean isDataAvailable(@NonNull WiFiData wiFiData) {
-        return !mainActivity.getNavigationMenuView().getCurrentNavigationMenu().isRegistered() || !wiFiData.getWiFiDetails().isEmpty();
+        return !mainActivity.getCurrentNavigationMenu().isRegistered() || !wiFiData.getWiFiDetails().isEmpty();
     }
 
     private void setConnectionVisibility(@NonNull WiFiData wiFiData, @NonNull ConnectionViewType connectionViewType) {
@@ -76,7 +76,7 @@ public class ConnectionView implements UpdateNotifier {
             connectionView.setVisibility(View.GONE);
         } else {
             connectionView.setVisibility(View.VISIBLE);
-            ViewGroup parent = (ViewGroup) connectionView.findViewById(R.id.connectionDetail);
+            ViewGroup parent = connectionView.findViewById(R.id.connectionDetail);
             View view = accessPointDetail.makeView(parent.getChildAt(0), parent, connection, false, connectionViewType.getAccessPointViewType());
             if (parent.getChildCount() == 0) {
                 parent.addView(view);
@@ -90,7 +90,7 @@ public class ConnectionView implements UpdateNotifier {
         String ipAddress = wiFiConnection.getIpAddress();
         ((TextView) connectionView.findViewById(R.id.ipAddress)).setText(ipAddress);
 
-        TextView textLinkSpeed = (TextView) connectionView.findViewById(R.id.linkSpeed);
+        TextView textLinkSpeed = connectionView.findViewById(R.id.linkSpeed);
         int linkSpeed = wiFiConnection.getLinkSpeed();
         if (linkSpeed == WiFiConnection.LINK_SPEED_INVALID) {
             textLinkSpeed.setVisibility(View.GONE);

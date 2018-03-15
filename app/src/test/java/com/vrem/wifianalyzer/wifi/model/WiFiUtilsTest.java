@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -62,7 +62,9 @@ public class WiFiUtilsTest {
     @Test
     public void testConvertIpAddress() throws Exception {
         assertEquals("21.205.91.7", WiFiUtils.convertIpAddress(123456789));
-        assertEquals(StringUtils.EMPTY, WiFiUtils.convertIpAddress(1234));
+        assertEquals("1.0.0.0", WiFiUtils.convertIpAddress(1));
+        assertEquals(StringUtils.EMPTY, WiFiUtils.convertIpAddress(0));
+        assertEquals(StringUtils.EMPTY, WiFiUtils.convertIpAddress(-1));
     }
 
     @Test

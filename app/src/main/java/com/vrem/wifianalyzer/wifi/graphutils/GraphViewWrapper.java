@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-public class GraphViewWrapper implements GraphConstants {
+public class GraphViewWrapper {
     private final GraphView graphView;
     private GraphLegend graphLegend;
     private SeriesCache seriesCache;
@@ -68,6 +68,7 @@ public class GraphViewWrapper implements GraphConstants {
         IterableUtils.forEach(seriesCache.remove(differenceSeries(newSeries)), new RemoveClouser());
     }
 
+    @NonNull
     public List<WiFiDetail> differenceSeries(@NonNull Set<WiFiDetail> newSeries) {
         return seriesCache.difference(newSeries);
     }
@@ -155,7 +156,7 @@ public class GraphViewWrapper implements GraphConstants {
             messageDigest.update(graphType.getBytes());
             return Arrays.hashCode(messageDigest.digest());
         } catch (Exception e) {
-            return TYPE1;
+            return GraphConstants.TYPE1;
         }
     }
 
@@ -172,7 +173,8 @@ public class GraphViewWrapper implements GraphConstants {
     }
 
     public int getSize(int value) {
-        return value == TYPE1 || value == TYPE2 || value == TYPE3 ? Configuration.SIZE_MAX : Configuration.SIZE_MIN;
+        return value == GraphConstants.TYPE1 || value == GraphConstants.TYPE2 || value == GraphConstants.TYPE3
+            ? Configuration.SIZE_MAX : Configuration.SIZE_MIN;
     }
 
     LegendRenderer newLegendRenderer() {
@@ -196,7 +198,7 @@ public class GraphViewWrapper implements GraphConstants {
         public void onTap(@NonNull Series series, @NonNull DataPointInterface dataPoint) {
             WiFiDetail wiFiDetail = seriesCache.find(series);
             if (wiFiDetail != null) {
-                View popupView = getAccessPointDetail().makeViewPopup(wiFiDetail);
+                View popupView = getAccessPointDetail().makeViewDetailed(wiFiDetail);
                 getAccessPointPopup().show(popupView);
             }
         }

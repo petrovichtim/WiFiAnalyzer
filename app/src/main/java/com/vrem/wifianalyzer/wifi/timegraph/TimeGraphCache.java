@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,13 +33,14 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-class TimeGraphCache implements GraphConstants {
+class TimeGraphCache {
     private final Map<WiFiDetail, Integer> notSeen;
 
     TimeGraphCache() {
         this.notSeen = new HashMap<>();
     }
 
+    @NonNull
     Set<WiFiDetail> active() {
         return new HashSet<>(CollectionUtils.select(notSeen.keySet(), new SeenPredicate()));
     }
@@ -64,6 +65,7 @@ class TimeGraphCache implements GraphConstants {
         }
     }
 
+    @NonNull
     Set<WiFiDetail> getWiFiDetails() {
         return notSeen.keySet();
     }
@@ -78,14 +80,14 @@ class TimeGraphCache implements GraphConstants {
     private class SeenPredicate implements Predicate<WiFiDetail> {
         @Override
         public boolean evaluate(WiFiDetail object) {
-            return notSeen.get(object) <= MAX_NOTSEEN_COUNT;
+            return notSeen.get(object) <= GraphConstants.MAX_NOTSEEN_COUNT;
         }
     }
 
     private class NotSeenPredicate implements Predicate<WiFiDetail> {
         @Override
         public boolean evaluate(WiFiDetail object) {
-            return notSeen.get(object) > MAX_NOTSEEN_COUNT;
+            return notSeen.get(object) > GraphConstants.MAX_NOTSEEN_COUNT;
         }
     }
 

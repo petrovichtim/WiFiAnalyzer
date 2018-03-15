@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,9 +23,6 @@ import android.support.annotation.NonNull;
 import com.vrem.wifianalyzer.MainContext;
 import com.vrem.wifianalyzer.navigation.NavigationMenu;
 import com.vrem.wifianalyzer.settings.Settings;
-import com.vrem.wifianalyzer.wifi.band.WiFiBand;
-import com.vrem.wifianalyzer.wifi.model.Security;
-import com.vrem.wifianalyzer.wifi.model.Strength;
 
 import org.apache.commons.collections4.Closure;
 import org.apache.commons.collections4.IterableUtils;
@@ -59,6 +56,7 @@ public class FilterAdapter {
         IterableUtils.forEach(getFilterAdapters(isAccessPoints()), new SaveClosure());
     }
 
+    @NonNull
     List<? extends BasicFilterAdapter<? extends Serializable>> getFilterAdapters(boolean accessPoints) {
         if (accessPoints) {
             return Arrays.asList(ssidAdapter, strengthAdapter, securityAdapter, wiFiBandAdapter);
@@ -66,19 +64,23 @@ public class FilterAdapter {
         return Arrays.asList(ssidAdapter, strengthAdapter, securityAdapter);
     }
 
-    public BasicFilterAdapter<String> getSSIDAdapter() {
+    @NonNull
+    public SSIDAdapter getSSIDAdapter() {
         return ssidAdapter;
     }
 
-    public EnumFilterAdapter<WiFiBand> getWiFiBandAdapter() {
+    @NonNull
+    public WiFiBandAdapter getWiFiBandAdapter() {
         return wiFiBandAdapter;
     }
 
-    public EnumFilterAdapter<Strength> getStrengthAdapter() {
+    @NonNull
+    public StrengthAdapter getStrengthAdapter() {
         return strengthAdapter;
     }
 
-    public EnumFilterAdapter<Security> getSecurityAdapter() {
+    @NonNull
+    public SecurityAdapter getSecurityAdapter() {
         return securityAdapter;
     }
 
@@ -90,7 +92,7 @@ public class FilterAdapter {
     }
 
     private boolean isAccessPoints() {
-        return NavigationMenu.ACCESS_POINTS.equals(MainContext.INSTANCE.getMainActivity().getNavigationMenuView().getCurrentNavigationMenu());
+        return NavigationMenu.ACCESS_POINTS.equals(MainContext.INSTANCE.getMainActivity().getCurrentNavigationMenu());
     }
 
     private class ActivePredicate implements Predicate<BasicFilterAdapter<? extends Serializable>> {

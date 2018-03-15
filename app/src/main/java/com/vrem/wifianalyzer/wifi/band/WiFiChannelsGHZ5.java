@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,11 +41,13 @@ public class WiFiChannelsGHZ5 extends WiFiChannels {
     }
 
     @Override
+    @NonNull
     public List<Pair<WiFiChannel, WiFiChannel>> getWiFiChannelPairs() {
         return new ArrayList<>(SETS);
     }
 
     @Override
+    @NonNull
     public Pair<WiFiChannel, WiFiChannel> getWiFiChannelPairFirst(String countryCode) {
         Pair<WiFiChannel, WiFiChannel> found = null;
         if (StringUtils.isNotBlank(countryCode)) {
@@ -55,6 +57,7 @@ public class WiFiChannelsGHZ5 extends WiFiChannels {
     }
 
     @Override
+    @NonNull
     public List<WiFiChannel> getAvailableChannels(@NonNull String countryCode) {
         return getAvailableChannels(WiFiChannelCountry.get(countryCode).getChannelsGHZ5());
     }
@@ -65,6 +68,7 @@ public class WiFiChannelsGHZ5 extends WiFiChannels {
     }
 
     @Override
+    @NonNull
     public WiFiChannel getWiFiChannelByFrequency(int frequency, @NonNull Pair<WiFiChannel, WiFiChannel> wiFiChannelPair) {
         return isInRange(frequency) ? getWiFiChannel(frequency, wiFiChannelPair) : WiFiChannel.UNKNOWN;
     }

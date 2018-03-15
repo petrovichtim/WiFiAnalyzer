@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -64,18 +64,22 @@ public class WiFiSignal {
         return getCenterFrequency() + getWiFiWidth().getFrequencyWidthHalf();
     }
 
+    @NonNull
     public WiFiBand getWiFiBand() {
         return wiFiBand;
     }
 
+    @NonNull
     public WiFiWidth getWiFiWidth() {
         return wiFiWidth;
     }
 
+    @NonNull
     public WiFiChannel getPrimaryWiFiChannel() {
         return getWiFiBand().getWiFiChannels().getWiFiChannelByFrequency(getPrimaryFrequency());
     }
 
+    @NonNull
     public WiFiChannel getCenterWiFiChannel() {
         return getWiFiBand().getWiFiChannels().getWiFiChannelByFrequency(getCenterFrequency());
     }
@@ -84,6 +88,7 @@ public class WiFiSignal {
         return level;
     }
 
+    @NonNull
     public Strength getStrength() {
         return Strength.calculate(level);
     }
@@ -100,9 +105,9 @@ public class WiFiSignal {
     public String getChannelDisplay() {
         int primaryChannel = getPrimaryWiFiChannel().getChannel();
         int centerChannel = getCenterWiFiChannel().getChannel();
-        String channel = "" + primaryChannel;
+        String channel = Integer.toString(primaryChannel);
         if (primaryChannel != centerChannel) {
-            channel += "(" + centerChannel + ")";
+            channel += "(" + Integer.toString(centerChannel) + ")";
         }
         return channel;
     }

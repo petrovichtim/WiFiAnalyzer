@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -83,7 +83,7 @@ public class CacheTest {
         // execute
         fixture.add(null);
         // validate
-        assertTrue(fixture.getCache().isEmpty());
+        assertTrue(fixture.getCachedScanResults().isEmpty());
     }
 
     @Test
@@ -95,7 +95,7 @@ public class CacheTest {
         // execute
         fixture.add(scanResults);
         // validate
-        assertEquals(scanResults, fixture.getCache().getFirst());
+        assertEquals(scanResults, fixture.getCachedScanResults().getFirst());
     }
 
     @Test
@@ -114,9 +114,9 @@ public class CacheTest {
         }
         // validate
         assertEquals(cacheSize, expected.size());
-        assertEquals(cacheSize, fixture.getCache().size());
-        assertEquals(expected.get(cacheSize - 1), fixture.getCache().getFirst());
-        assertEquals(expected.get(cacheSize - 2), fixture.getCache().getLast());
+        assertEquals(cacheSize, fixture.getCachedScanResults().size());
+        assertEquals(expected.get(cacheSize - 1), fixture.getCachedScanResults().getFirst());
+        assertEquals(expected.get(cacheSize - 2), fixture.getCachedScanResults().getLast());
     }
 
     @Test
@@ -163,7 +163,7 @@ public class CacheTest {
         // execute
         fixture.add(null);
         // validate
-        assertTrue(fixture.getCache().isEmpty());
+        assertTrue(fixture.getCachedScanResults().isEmpty());
     }
 
     @Test
@@ -175,7 +175,7 @@ public class CacheTest {
         // execute
         fixture.add(scanResults);
         // validate
-        assertEquals(scanResults, fixture.getCache().getFirst());
+        assertEquals(scanResults, fixture.getCachedScanResults().getFirst());
     }
 
     @Test
@@ -195,9 +195,9 @@ public class CacheTest {
         }
         // validate
         assertEquals(cacheSize, expected.size());
-        assertEquals(expectedSize, fixture.getCache().size());
-        assertEquals(expected.get(cacheSize - 1), fixture.getCache().getFirst());
-        assertEquals(expected.get(cacheSize - 2), fixture.getCache().getLast());
+        assertEquals(expectedSize, fixture.getCachedScanResults().size());
+        assertEquals(expected.get(cacheSize - 1), fixture.getCachedScanResults().getFirst());
+        assertEquals(expected.get(cacheSize - 2), fixture.getCachedScanResults().getLast());
     }
 
     @Test

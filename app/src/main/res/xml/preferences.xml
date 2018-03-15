@@ -1,6 +1,6 @@
 <!--
   ~ WiFiAnalyzer
-  ~ Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+  ~ Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -112,5 +112,11 @@
         android:persistent="true"
         android:summary="@string/country_code_summary"
         android:title="@string/country_code_title"/>
+
+    <com.vrem.wifianalyzer.settings.LanguagePreference
+        android:key="@string/language_key"
+        android:persistent="true"
+        android:summary="@string/language_summary"
+        android:title="@string/language_title"/>
 
 </PreferenceScreen>

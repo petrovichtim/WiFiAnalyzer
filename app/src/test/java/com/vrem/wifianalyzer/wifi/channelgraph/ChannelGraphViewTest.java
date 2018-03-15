@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@ import com.vrem.wifianalyzer.BuildConfig;
 import com.vrem.wifianalyzer.MainContextHelper;
 import com.vrem.wifianalyzer.RobolectricUtil;
 import com.vrem.wifianalyzer.settings.Settings;
+import com.vrem.wifianalyzer.settings.ThemeStyle;
 import com.vrem.wifianalyzer.wifi.band.WiFiBand;
 import com.vrem.wifianalyzer.wifi.band.WiFiChannel;
 import com.vrem.wifianalyzer.wifi.graphutils.GraphConstants;
@@ -48,7 +49,6 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -96,8 +96,7 @@ public class ChannelGraphViewTest {
         // validate
         verify(dataManager).getNewSeries(wiFiDetails, wiFiChannelPair);
         verify(dataManager).addSeriesData(graphViewWrapper, newSeries, GraphConstants.MAX_Y);
-        //noinspection unchecked
-        verify(graphViewWrapper).removeSeries(any(Set.class));
+        verify(graphViewWrapper).removeSeries(newSeries);
         verify(graphViewWrapper).updateLegend(GraphLegend.RIGHT);
         verify(graphViewWrapper).setVisibility(View.VISIBLE);
         verifySettings();
@@ -108,6 +107,7 @@ public class ChannelGraphViewTest {
         verify(settings, times(2)).getChannelGraphLegend();
         verify(settings, times(2)).getWiFiBand();
         verify(settings, times(2)).getGraphMaximumY();
+        verify(settings).getThemeStyle();
     }
 
     private void withSettings() {
@@ -115,6 +115,7 @@ public class ChannelGraphViewTest {
         when(settings.getSortBy()).thenReturn(SortBy.CHANNEL);
         when(settings.getWiFiBand()).thenReturn(WiFiBand.GHZ2);
         when(settings.getGraphMaximumY()).thenReturn(GraphConstants.MAX_Y);
+        when(settings.getThemeStyle()).thenReturn(ThemeStyle.DARK);
     }
 
     @Test

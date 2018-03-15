@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,16 +34,17 @@ import com.vrem.wifianalyzer.wifi.model.WiFiConnection;
 import com.vrem.wifianalyzer.wifi.model.WiFiData;
 import com.vrem.wifianalyzer.wifi.model.WiFiDetail;
 import com.vrem.wifianalyzer.wifi.model.WiFiSignal;
-import com.vrem.wifianalyzer.wifi.scanner.Scanner;
+import com.vrem.wifianalyzer.wifi.scanner.ScannerService;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Collections;
+import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -53,9 +54,9 @@ import static org.powermock.api.mockito.PowerMockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class ExportItemTest {
     @Mock
-    Intent sendIntent;
+    private Intent sendIntent;
     @Mock
-    Intent chooserIntent;
+    private Intent chooserIntent;
     @Mock
     private MainActivity mainActivity;
     @Mock
@@ -69,12 +70,12 @@ public class ExportItemTest {
 
     private ExportItem fixture;
     private String sendTitle;
-    private Scanner scanner;
+    private ScannerService scanner;
     private WiFiDetail wiFiDetail;
 
     @Before
     public void setUp() {
-        scanner = MainContextHelper.INSTANCE.getScanner();
+        scanner = MainContextHelper.INSTANCE.getScannerService();
 
         sendTitle = "title";
         wiFiDetail = new WiFiDetail("SSID", "BSSID", "capabilities", new WiFiSignal(2412, 2422, WiFiWidth.MHZ_40, -40));
@@ -104,13 +105,14 @@ public class ExportItemTest {
     public void testActivate() throws Exception {
         // setup
         WiFiData wiFiData = withWiFiData();
-        String sendData = fixture.getData(wiFiData.getWiFiDetails());
         when(scanner.getWiFiData()).thenReturn(wiFiData);
         withResources();
         withResolveActivity();
         // execute
         fixture.activate(mainActivity, menuItem, NavigationMenu.EXPORT);
         // validate
+        String timestamp = fixture.getTimestamp();
+        String sendData = fixture.getData(timestamp, wiFiData.getWiFiDetails());
         verify(scanner).getWiFiData();
         verifyResources();
         verifyResolveActivity();
@@ -123,10 +125,11 @@ public class ExportItemTest {
         // setup
         WiFiData wiFiData = withWiFiData();
         String expected =
-            "SSID|BSSID|Strength|Primary Channel|Primary Frequency|Center Channel|Center Frequency|Width (Range)|Distance|Security\n"
-                + "SSID|BSSID|-40dBm|1|2412MHz|3|2422MHz|40MHz (2402 - 2442)|1.0m|capabilities\n";
+            String.format(Locale.ENGLISH,
+                "Time Stamp|SSID|BSSID|Strength|Primary Channel|Primary Frequency|Center Channel|Center Frequency|Width (Range)|Distance|Security%n"
+                    + "TimeStamp1|SSID|BSSID|-40dBm|1|2412MHz|3|2422MHz|40MHz (2402 - 2442)|1.0m|capabilities%n");
         // execute
-        String actual = fixture.getData(wiFiData.getWiFiDetails());
+        String actual = fixture.getData("TimeStamp1", wiFiData.getWiFiDetails());
         // validate
         assertEquals(expected, actual);
     }

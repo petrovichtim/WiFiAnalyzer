@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,7 +54,7 @@ class AccessPointsAdapter extends BaseExpandableListAdapter implements UpdateNot
         View view = accessPointDetail.makeView(convertView, parent, wiFiDetail, false);
         attachPopup(view, wiFiDetail);
 
-        ImageView groupIndicator = (ImageView) view.findViewById(R.id.groupIndicator);
+        ImageView groupIndicator = view.findViewById(R.id.groupIndicator);
         int childrenCount = getChildrenCount(groupPosition);
         if (childrenCount > 0) {
             groupIndicator.setVisibility(View.VISIBLE);

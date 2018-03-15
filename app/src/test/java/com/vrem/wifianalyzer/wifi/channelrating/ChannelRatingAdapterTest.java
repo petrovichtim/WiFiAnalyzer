@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@ package com.vrem.wifianalyzer.wifi.channelrating;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -96,15 +97,16 @@ public class ChannelRatingAdapterTest {
         fixture.add(wiFiChannel);
         when(channelRating.getCount(wiFiChannel)).thenReturn(5);
         when(channelRating.getStrength(wiFiChannel)).thenReturn(Strength.FOUR);
+        ViewGroup viewGroup = mainActivity.findViewById(android.R.id.content);
         // execute
-        View actual = fixture.getView(0, null, null);
+        View actual = fixture.getView(0, null, viewGroup);
         // validate
         assertNotNull(actual);
 
         assertEquals("1", ((TextView) actual.findViewById(R.id.channelNumber)).getText());
         assertEquals("5", ((TextView) actual.findViewById(R.id.accessPointCount)).getText());
 
-        RatingBar ratingBar = (RatingBar) actual.findViewById(R.id.channelRating);
+        RatingBar ratingBar = actual.findViewById(R.id.channelRating);
         assertEquals(expectedSize, ratingBar.getMax());
         assertEquals(expectedSize, ratingBar.getNumStars());
         assertEquals(expectedStrength.ordinal() + 1, (int) ratingBar.getRating());

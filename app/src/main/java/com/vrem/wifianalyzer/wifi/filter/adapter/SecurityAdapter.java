@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ import com.vrem.wifianalyzer.wifi.model.Security;
 
 import java.util.Set;
 
-class SecurityAdapter extends EnumFilterAdapter<Security> {
+public class SecurityAdapter extends EnumFilterAdapter<Security> {
 
     SecurityAdapter(@NonNull Set<Security> values) {
         super(Security.class, values);

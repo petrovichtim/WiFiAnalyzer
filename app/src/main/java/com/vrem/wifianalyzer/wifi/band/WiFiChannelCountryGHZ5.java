@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -56,6 +56,7 @@ class WiFiChannelCountryGHZ5 {
         channels.addAll(channelsSet3);
     }
 
+    @NonNull
     SortedSet<Integer> findChannels(@NonNull String countryCode) {
         SortedSet<Integer> results = new TreeSet<>(channels);
         SortedSet<Integer> exclude = channelsToExclude.get(StringUtils.capitalize(countryCode));

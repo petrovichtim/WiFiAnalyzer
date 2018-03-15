@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ import com.vrem.wifianalyzer.navigation.NavigationMenuView;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -57,17 +57,16 @@ public class FragmentItemTest {
     @Test
     public void testActivate() throws Exception {
         // setup
-        FragmentItem fixture = new FragmentItem(fragment);
+        FragmentItem fixture = new FragmentItem(fragment, true);
         String title = "title";
         NavigationMenu navigationMenu = NavigationMenu.ACCESS_POINTS;
         withFragmentTransaction();
-        when(mainActivity.getNavigationMenuView()).thenReturn(navigationMenuView);
         when(menuItem.getTitle()).thenReturn(title);
         // execute
         fixture.activate(mainActivity, menuItem, navigationMenu);
         // validate
         verifyFragmentTransaction();
-        verify(navigationMenuView).setCurrentNavigationMenu(navigationMenu);
+        verify(mainActivity).setCurrentNavigationMenu(navigationMenu);
         verify(mainActivity).setTitle(title);
         verify(mainActivity).updateActionBar();
     }
@@ -75,7 +74,7 @@ public class FragmentItemTest {
     @Test
     public void testIsRegisteredFalse() throws Exception {
         // setup
-        FragmentItem fixture = new FragmentItem(fragment);
+        FragmentItem fixture = new FragmentItem(fragment, false);
         // execute & validate
         assertFalse(fixture.isRegistered());
     }

@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Arrays;
 import java.util.List;
@@ -55,7 +55,8 @@ public class TransformerTest {
     private static final String WPA = "WPA";
     private static final int FREQUENCY = 2435;
     private static final int LEVEL = -40;
-    private static final int IP_ADDRESS = 123456789;
+    private static final int IP_ADDRESS_VALUE = 123456789;
+    private static final String IP_ADDRESS = "21.205.91.7";
     private static final int LINK_SPEED = 21;
 
     @Mock
@@ -136,7 +137,7 @@ public class TransformerTest {
     @Test
     public void testWiFiData() throws Exception {
         // setup
-        WiFiConnection expectedWiFiConnection = new WiFiConnection(SSID_1, BSSID_1);
+        WiFiConnection expectedWiFiConnection = new WiFiConnection(SSID_1, BSSID_1, IP_ADDRESS, LINK_SPEED);
         withCacheResults();
         withWiFiConfiguration();
         withWiFiInfo();
@@ -306,7 +307,7 @@ public class TransformerTest {
         when(wifiInfo.getNetworkId()).thenReturn(0);
         when(wifiInfo.getSSID()).thenReturn(SSID_1);
         when(wifiInfo.getBSSID()).thenReturn(BSSID_1);
-        when(wifiInfo.getIpAddress()).thenReturn(IP_ADDRESS);
+        when(wifiInfo.getIpAddress()).thenReturn(IP_ADDRESS_VALUE);
         when(wifiInfo.getLinkSpeed()).thenReturn(LINK_SPEED);
     }
 

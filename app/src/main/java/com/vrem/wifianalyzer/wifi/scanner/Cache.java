@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,8 +36,9 @@ import java.util.List;
 
 class Cache {
     private static final int ADJUST = 10;
-    private final Deque<List<ScanResult>> cache = new ArrayDeque<>();
+    private final Deque<List<ScanResult>> cachedScanResults = new ArrayDeque<>();
 
+    @NonNull
     List<CacheResult> getScanResults() {
         ScanResult current = null;
         int levelTotal = 0;
@@ -71,25 +72,27 @@ class Cache {
         return cacheResult;
     }
 
+    @NonNull
     private List<ScanResult> combineCache() {
         List<ScanResult> scanResults = new ArrayList<>();
-        IterableUtils.forEach(cache, new CacheClosure(scanResults));
+        IterableUtils.forEach(cachedScanResults, new CacheClosure(scanResults));
         Collections.sort(scanResults, new ScanResultComparator());
         return scanResults;
     }
 
     void add(List<ScanResult> scanResults) {
         int cacheSize = getCacheSize();
-        while (cache.size() >= cacheSize) {
-            cache.pollLast();
+        while (cachedScanResults.size() >= cacheSize) {
+            cachedScanResults.pollLast();
         }
         if (scanResults != null) {
-            cache.addFirst(scanResults);
+            cachedScanResults.addFirst(scanResults);
         }
     }
 
-    Deque<List<ScanResult>> getCache() {
-        return cache;
+    @NonNull
+    Deque<List<ScanResult>> getCachedScanResults() {
+        return cachedScanResults;
     }
 
     int getCacheSize() {

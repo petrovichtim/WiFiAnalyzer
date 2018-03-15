@@ -1,6 +1,6 @@
 /*
  * WiFiAnalyzer
- * Copyright (C) 2017  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
+ * Copyright (C) 2018  VREM Software Development <VREMSoftwareDevelopment@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,7 @@
 
 package com.vrem.wifianalyzer.wifi.graphutils;
 
+import android.content.Context;
 import android.content.res.Resources;
 
 import com.vrem.wifianalyzer.MainActivity;
@@ -29,7 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
@@ -45,13 +46,16 @@ public class GraphColorsTest {
 
     @Mock
     private Resources resources;
+    @Mock
+    private Context context;
 
     private GraphColors fixture;
 
     @Before
     public void setUp() {
         MainActivity mainActivity = MainContextHelper.INSTANCE.getMainActivity();
-        when(mainActivity.getResources()).thenReturn(resources);
+        when(mainActivity.getApplicationContext()).thenReturn(context);
+        when(context.getResources()).thenReturn(resources);
         when(resources.getStringArray(R.array.graph_colors)).thenReturn(colors);
 
         fixture = new GraphColors();
